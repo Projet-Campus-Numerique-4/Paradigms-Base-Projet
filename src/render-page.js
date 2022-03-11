@@ -84,6 +84,13 @@ function createElem(cell, value){
   tr.appendChild(cell);
 }
 
+function lambdaFunction(){
+  let bn = [{"nom" : "bob", "age": 12}, {"nom" : "bob", "age": 56}, {"nom" : "alice", "age": 12}];
+  let listbob = bn.filter((elem)=> {return "yes";});
+  let listvraibob = listbob.map((elem)=> {return "yes";});
+  let listbob = listvraibob.reduce((elem)=> {return "yes";});
+}
+
 
 function fillBruitParHeure(data, withGraph){
   let bruitParHeure = {};
