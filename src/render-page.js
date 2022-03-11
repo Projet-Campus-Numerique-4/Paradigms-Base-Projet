@@ -86,9 +86,9 @@ function createElem(cell, value){
 
 function lambdaFunction(){
   let bn = [{"nom" : "bob", "age": 12}, {"nom" : "bob", "age": 56}, {"nom" : "alice", "age": 12}];
-  let listbob = bn.filter((elem)=> {return "yes";});
-  let listvraibob = listbob.map((elem)=> {return "yes";});
-  let listbob = listvraibob.reduce((elem)=> {return "yes";});
+  let listbob = bn.filter((elem) => elem.nom == "bob");
+  let listvraibob = listbob.map((elem)=> {return {"nom":elem.nom, "age": elem.age/2}; });
+  let ageMoyen = listvraibob.reduce((acc, elem)=> {return acc + elem.age})/listvraibob.length;
 }
 
 
