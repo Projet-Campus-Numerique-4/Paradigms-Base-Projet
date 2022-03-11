@@ -1,6 +1,6 @@
 var assert = require("assert");
 var pretty = require("pretty");
-var { defineTable } = require("../render-page");
+var { renderPage, defineTable } = require("../render-page");
 
 
 

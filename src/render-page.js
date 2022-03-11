@@ -1,21 +1,19 @@
 const createChart = require("./graph");
 
 
-
-
 /**
  * Génère le rendu de la page.
  * @param {import("../types").Mesure[]} data
  * @param {boolean} withGraph Pour les tests
  */
 function renderPage(data, withGraph) {
+  console.log(data);
   const divTable = document.getElementById("table");
   if (withGraph && window.chart) {
     window.chart.destroy();
   }
   displayData(data, withGraph, divTable);
 }
-
 
 
 function displayData(data, withGraph, divTable){
@@ -34,7 +32,6 @@ function createTable(data, divTable){
 
 function defineTable(divTable){
   divTable.innerHTML = "";
-
   let table = document.createElement("table");
   table.innerHTML = `
   <thead>
@@ -46,7 +43,7 @@ function defineTable(divTable){
   </thead>
   `;
   divTable.appendChild(table);
-    return table;
+  return table;
 }
 
 
@@ -109,10 +106,10 @@ function displayGraph(bruitParHeure, withGraph){
 }
 
 
-exports.renderPage = renderPage;
-exports.displayData = displayData;
-exports.createTable = createTable;
-exports.defineTable = defineTable;
-exports.fillTable = fillTable;
-exports.fillBruitParHeure = fillBruitParHeure;
-exports.displayGraph = displayGraph;
+module.exports = renderPage;
+renderPage.displayData = displayData;
+renderPage.createTable = createTable;
+renderPage.defineTable = defineTable;
+renderPage.fillTable = fillTable;
+renderPage.fillBruitParHeure = fillBruitParHeure;
+renderPage.displayGraph = displayGraph;

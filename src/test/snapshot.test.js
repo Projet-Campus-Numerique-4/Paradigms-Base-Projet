@@ -1,6 +1,6 @@
 var assert = require("assert");
 var pretty = require("pretty");
-const { renderPage } = require("../render-page");
+const renderPage = require("../render-page");
 
 const data = [
   {
