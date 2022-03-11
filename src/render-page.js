@@ -1,3 +1,4 @@
+const { timestamp } = require("rxjs");
 const createChart = require("./graph");
 
 
@@ -55,6 +56,11 @@ function fillTable(table, data){
 
     tr.setAttribute("data-id", mesure.id);
 
+    // createElem(dateCell,mesure.timestamp);
+    // createElem(capteurCell,mesure.type);
+    // createElem(valeurCell,mesure.valeur);
+
+
     let dateCell = document.createElement("td");
     dateCell.innerHTML = mesure.timestamp;
     tr.appendChild(dateCell);
@@ -69,6 +75,13 @@ function fillTable(table, data){
 
     table.appendChild(tr);
   }
+}
+
+
+function createElem(cell, value){
+  cell = document.createElement("td");
+  cell.innerHTML = value;
+  tr.appendChild(cell);
 }
 
 
