@@ -14,8 +14,6 @@ describe("defineTable test", () => {
     
     const divTable = document.getElementById("table");
     let table = defineTable(divTable);
-    console.log(table);
-    console.log("hezofefnzafeoinfe ofei eoief onf ifn zonfi fof kofnbez ");
     assert.equal(
       pretty(divTable.innerHTML),
       pretty(`<table>

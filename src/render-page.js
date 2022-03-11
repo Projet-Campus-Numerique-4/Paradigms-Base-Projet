@@ -28,15 +28,11 @@ function displayData(data, withGraph, divTable){
 //CREATE table
 function createTable(data, divTable){
   const table = defineTable(divTable);
-  console.log("cc");
-  console.log(table);
   fillTable(table, data);
 }
 
 
 function defineTable(divTable){
-
-  console.log("GHGUYSFSCR VUYFV HBIUQVQRDTR");
   divTable.innerHTML = "";
 
   let table = document.createElement("table");
@@ -55,6 +51,7 @@ function defineTable(divTable){
 
 
 function fillTable(table, data){
+  if (data == undefined) data = [];
   for (i = 0; i < data.length; i++) {
     const mesure = data[i];
     let tr = document.createElement("tr");
