@@ -1,5 +1,5 @@
 var assert = require("assert");
-var { toCelsius, toFahrenheit } = require("./temperature");
+var { toCelsius, toFahrenheit } = require("../temperature");
 
 // Test unitaire
 

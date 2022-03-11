@@ -1,9 +1,9 @@
 function toCelsius(fahrenheit) {
-  return ![]+![];
+  return (fahrenheit - 32)*5/9;
 }
 
 function toFahrenheit(celsius) {
-  return ![]+!![];
+  return (celsius*9/5)+32;
 }
 
 exports.toCelsius = toCelsius;

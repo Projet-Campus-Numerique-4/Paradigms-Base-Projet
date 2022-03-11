@@ -1,5 +1,8 @@
 const createChart = require("./graph");
 
+
+
+
 /**
  * Génère le rendu de la page.
  * @param {import("../types").Mesure[]} data
@@ -7,26 +10,51 @@ const createChart = require("./graph");
  */
 function renderPage(data, withGraph) {
   const divTable = document.getElementById("table");
-  divTable.innerHTML = "";
-
   if (withGraph && window.chart) {
     window.chart.destroy();
   }
+  displayData(data, withGraph, divTable);
+}
 
-  const table = document.createElement("table");
-  divTable.appendChild(table);
+
+
+function displayData(data, withGraph, divTable){
+  createTable(data, divTable);
+  let bruitParHeure = fillBruitParHeure(data, withGraph);
+  displayGraph(bruitParHeure, withGraph);
+}
+
+
+//CREATE table
+function createTable(data, divTable){
+  const table = defineTable(divTable);
+  console.log("cc");
+  console.log(table);
+  fillTable(table, data);
+}
+
+
+function defineTable(divTable){
+
+  console.log("GHGUYSFSCR VUYFV HBIUQVQRDTR");
+  divTable.innerHTML = "";
+
+  let table = document.createElement("table");
   table.innerHTML = `
-    <thead>
-      <tr>
-        <th>date</th>
-        <th>capteur</th>
-        <th>valeur</th>
-      </tr>
-    </thead>
-    `;
+  <thead>
+  <tr>
+  <th>date</th>
+  <th>capteur</th>
+  <th>valeur</th>
+  </tr>
+  </thead>
+  `;
+  divTable.appendChild(table);
+    return table;
+}
 
-  let bruitParHeure = {};
 
+function fillTable(table, data){
   for (i = 0; i < data.length; i++) {
     const mesure = data[i];
     let tr = document.createElement("tr");
@@ -46,6 +74,14 @@ function renderPage(data, withGraph) {
     tr.appendChild(valeurCell);
 
     table.appendChild(tr);
+  }
+}
+
+
+function fillBruitParHeure(data, withGraph){
+  let bruitParHeure = {};
+  for (i = 0; i < data.length; i++) {
+    const mesure = data[i];
 
     if (withGraph && mesure.type === "noise") {
       var heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
@@ -56,7 +92,11 @@ function renderPage(data, withGraph) {
       }
     }
   }
+  return bruitParHeure;
+}
 
+
+function displayGraph(bruitParHeure, withGraph){
   if (withGraph) {
     var graphData = {};
     for (const key in bruitParHeure) {
@@ -67,8 +107,15 @@ function renderPage(data, withGraph) {
       }
       graphData[key] = somme / mesures.length;
     }
-
     window.chart = createChart("myChart", graphData, "bruit");
   }
 }
-module.exports = renderPage;
+
+
+exports.renderPage = renderPage;
+exports.displayData = displayData;
+exports.createTable = createTable;
+exports.defineTable = defineTable;
+exports.fillTable = fillTable;
+exports.fillBruitParHeure = fillBruitParHeure;
+exports.displayGraph = displayGraph;
