@@ -17,7 +17,7 @@ function renderPage(data, withGraph) {
 }
 
 
-function displayData(data, withGraph, divTable){
+function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   let bruitParHeure = fillBruitParHeure(data, withGraph);
   displayGraph(bruitParHeure, withGraph);
@@ -25,13 +25,13 @@ function displayData(data, withGraph, divTable){
 
 
 //CREATE table
-function createTable(data, divTable){
+function createTable(data, divTable) {
   const table = defineTable(divTable);
   fillTable(table, data);
 }
 
 
-function defineTable(divTable){
+function defineTable(divTable) {
   divTable.innerHTML = "";
   let table = document.createElement("table");
   table.innerHTML = `
@@ -48,7 +48,7 @@ function defineTable(divTable){
 }
 
 
-function fillTable(table, data){
+function fillTable(table, data) {
   if (data == undefined) data = [];
   for (i = 0; i < data.length; i++) {
     const mesure = data[i];
@@ -60,71 +60,59 @@ function fillTable(table, data){
     createElem(mesure.type, tr);
     createElem(mesure.valeur, tr);
 
-/*
-    let dateCell = document.createElement("td");
-    dateCell.innerHTML = mesure.timestamp;
-    tr.appendChild(dateCell);
-
-    let capteurCell = document.createElement("td");
-    capteurCell.innerHTML = mesure.type;
-    tr.appendChild(capteurCell);
-
-    let valeurCell = document.createElement("td");
-    valeurCell.innerHTML = mesure.valeur;
-    tr.appendChild(valeurCell);
-  */
-
     table.appendChild(tr);
   }
 }
 
 
-function createElem(value, tr){
+function createElem(value, tr) {
   let cell = document.createElement("td");
   cell.innerHTML = value;
   tr.appendChild(cell);
 }
 
-function lambdaFunction(){
-  let bn = [{"nom" : "bob", "age": 12}, {"nom" : "bob", "age": 56}, {"nom" : "alice", "age": 12}];
-  let listbob = bn.filter((elem) => elem.nom == "bob");
-  let listvraibob = listbob.map((elem)=> {return {"nom":elem.nom, "age": elem.age/2}; });
-  let ageMoyen = listvraibob.reduce((acc, elem)=> {return acc + elem.age})/listvraibob.length;
-}
 
+function fillBruitParHeure(data, withGraph) {
+  const bruitParHeure = {};
 
-function fillBruitParHeure(data, withGraph){
-  let bruitParHeure = {};
-  for (i = 0; i < data.length; i++) {
-    const mesure = data[i];
-
+  data.map((mesure) => {
     if (withGraph && mesure.type === "noise") {
-      var heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
-      if (bruitParHeure[heure]) {
-        bruitParHeure[heure].push(mesure.valeur);
-      } else {
-        bruitParHeure[heure] = [mesure.valeur];
-      }
+      const heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
+      return bruitParHeure[heure] ? bruitParHeure[heure].push(mesure.valeur) : bruitParHeure[heure] = [mesure.valeur];
     }
-  }
+  });
+
   return bruitParHeure;
 }
 
 
-function displayGraph(bruitParHeure, withGraph){
+
+function displayGraph(bruitParHeure, withGraph) {
   if (withGraph) {
-    var graphData = {};
-    for (const key in bruitParHeure) {
-      const mesures = bruitParHeure[key];
-      let somme = 0;
-      for (i = 0; i < mesures.length; i++) {
-        somme += mesures[i];
-      }
-      graphData[key] = somme / mesures.length;
-    }
+    const graphData = Object.fromEntries(
+      Object.entries(bruitParHeure)
+        .map(arr => {
+          const mesure = arr[1];
+          return [arr[0], somme(mesure) / mesure.length];
+        })
+    );
     window.chart = createChart("myChart", graphData, "bruit");
+
   }
 }
+
+function somme(table) {
+return table.reduce((acc, i) => acc + i);
+}
+
+
+function lambdaFunction() {
+  let bn = [{ "nom": "bob", "age": 12 }, { "nom": "bob", "age": 56 }, { "nom": "alice", "age": 12 }];
+  let listbob = bn.filter((elem) => elem.nom == "bob");
+  let listvraibob = listbob.map((elem) => { return { "nom": elem.nom, "age": elem.age / 2 }; });
+  let ageMoyen = listvraibob.reduce((acc, elem) => { return acc + elem.age }) / listvraibob.length;
+}
+
 
 
 module.exports = renderPage;
