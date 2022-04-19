@@ -72,15 +72,26 @@ function createElem(value, tr) {
 
 
 function fillBruitParHeure(data, withGraph) {
-  const bruitParHeure = {};
+  if (! withGraph) {
+    return {};
+  }
 
-  data.filter(mesure => mesure.type === "noise")
-      .map((mesure) => {
-    if (withGraph) {
-      const heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
-      return bruitParHeure[heure] ? bruitParHeure[heure].push(mesure.valeur) : bruitParHeure[heure] = [mesure.valeur];
-    }
-  });
+  const bruitParHeure = data
+    .filter(({type}) => type === "noise")
+    .reduce((acc, curr) => {
+      const heure = new Date(curr.timestamp).toLocaleTimeString("fr");
+
+      return {
+        ...acc,
+         [heure]: [...(curr[heure] === undefined ? [] : curr[heure]), curr.valeur]
+      }
+    }, {});
+
+  // .map((mesure) => {
+  //     const heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
+  //     return bruitParHeure[heure] ? bruitParHeure[heure].push(mesure.valeur) 
+  //     : bruitParHeure[heure] = [mesure.valeur];
+  // });
 
   return bruitParHeure;
 }
@@ -99,7 +110,7 @@ function displayGraph(bruitParHeure, withGraph) {
 }
 
 function sum(table) {
-return table.reduce((acc, i) => acc + i);
+  return table.reduce((acc, i) => acc + i);
 }
 
 
