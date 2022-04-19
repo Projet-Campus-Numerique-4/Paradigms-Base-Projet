@@ -18,8 +18,11 @@ function renderPage(data, withGraph) {
 
 function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
-  let bruitParHeure = fillBruitParHeure(data, withGraph);
-  displayGraph(bruitParHeure, withGraph);
+  if (withGraph) {
+    const bruitParHeure = fillBruitParHeure(data);
+    console.log(bruitParHeure);
+    displayGraph(bruitParHeure);
+  }
 }
 
 
@@ -71,10 +74,7 @@ function createElem(value, tr) {
 }
 
 
-function fillBruitParHeure(data, withGraph) {
-  if (! withGraph) {
-    return {};
-  }
+function fillBruitParHeure(data) {
 
   const bruitParHeure = data
     .filter(({type}) => type === "noise")
@@ -82,21 +82,14 @@ function fillBruitParHeure(data, withGraph) {
       const heure = new Date(curr.timestamp).toLocaleTimeString("fr");
       return {
         ...acc,
-         [heure]: [...(curr[heure] === undefined ? [] : curr[heure]), curr.valeur]
+         [heure]: [...(acc[heure] === undefined ? [] : acc[heure]), curr.valeur]
       }
     }, {});
-
-  // .map((mesure) => {
-  //     const heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
-  //     return bruitParHeure[heure] ? bruitParHeure[heure].push(mesure.valeur) 
-  //     : bruitParHeure[heure] = [mesure.valeur];
-  // });
 
   return bruitParHeure;
 }
 
-function displayGraph(bruitParHeure, withGraph) {
-  if (withGraph) {
+function displayGraph(bruitParHeure) {
     const graphData = Object.fromEntries(
       Object.entries(bruitParHeure)
         .map(([key, mesure]) => {
@@ -105,7 +98,6 @@ function displayGraph(bruitParHeure, withGraph) {
     );
     window.chart = createChart("myChart", graphData, "bruit");
 
-  }
 }
 
 function sum(table) {
