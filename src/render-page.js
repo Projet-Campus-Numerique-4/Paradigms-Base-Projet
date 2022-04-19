@@ -121,6 +121,29 @@ function lambdaFunction() {
   let ageMoyen = listvraibob.reduce((acc, elem) => { return acc + elem.age }) / listvraibob.length;
 }
 
+let timestampObject = {
+  id: 2,
+  valeur: 10,
+  timestamp: 1650371584398
+}
+
+
+function addDateProps({timestamp = Date.now()}) {
+
+  var date = new Date(timestamp);
+
+  let result = {
+    frDate: date.toLocaleDateString("fr"),
+    jour: date.getDay(),
+    mois: date.getMonth() +1,
+    année: date.getFullYear(),
+    heure: date.getHours()
+  }
+  
+  return result;
+}
+
+addDateProps(timestampObject);
 
 
 module.exports = renderPage;
@@ -130,3 +153,5 @@ renderPage.defineTable = defineTable;
 renderPage.fillTable = fillTable;
 renderPage.fillBruitParHeure = fillBruitParHeure;
 renderPage.displayGraph = displayGraph;
+renderPage.addDateProps = addDateProps;
+
