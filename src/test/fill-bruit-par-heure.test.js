@@ -25,7 +25,6 @@ const dataResult = 10;
 describe("defineTable test", () => {
   before(function () {  });  it("fillBruitParHeure", () => {
     let bruitData = fillBruitParHeure(data, true);
-    console.log(bruitData);
     assert.equal(bruitData["08:30:59"], dataResult);
   });
 });

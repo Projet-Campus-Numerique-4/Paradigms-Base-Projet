@@ -8,7 +8,6 @@ const createChart = require("./graph");
  * @param {boolean} withGraph Pour les tests
  */
 function renderPage(data, withGraph) {
-  console.log(data);
   const divTable = document.getElementById("table");
   if (withGraph && window.chart) {
     window.chart.destroy();
@@ -85,15 +84,13 @@ function fillBruitParHeure(data, withGraph) {
   return bruitParHeure;
 }
 
-
-
 function displayGraph(bruitParHeure, withGraph) {
   if (withGraph) {
     const graphData = Object.fromEntries(
       Object.entries(bruitParHeure)
         .map(arr => {
           const mesure = arr[1];
-          return [arr[0], somme(mesure) / mesure.length];
+          return [arr[0], sum(mesure) / mesure.length];
         })
     );
     window.chart = createChart("myChart", graphData, "bruit");
@@ -101,7 +98,7 @@ function displayGraph(bruitParHeure, withGraph) {
   }
 }
 
-function somme(table) {
+function sum(table) {
 return table.reduce((acc, i) => acc + i);
 }
 
