@@ -125,7 +125,10 @@ function displayGraph(bruitParHeure, withGraph){
   }
 }
 
-
+function addDateProps(bruitParHeure)
+{
+  
+}
 module.exports = renderPage;
 renderPage.displayData = displayData;
 renderPage.createTable = createTable;
