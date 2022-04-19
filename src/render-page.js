@@ -20,7 +20,6 @@ function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
-    console.log(bruitParHeure);
     displayGraph(bruitParHeure);
   }
 }
