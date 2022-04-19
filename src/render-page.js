@@ -94,10 +94,10 @@ function lambdaFunction(){
 
 function fillBruitParHeure(data, withGraph){
   let bruitParHeure = {};
+  data = data.filter(array => array.type === "noise");
   for (i = 0; i < data.length; i++) {
     const mesure = data[i];
-
-    if (withGraph && mesure.type === "noise") {
+    if (withGraph) {
       var heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
       if (bruitParHeure[heure]) {
         bruitParHeure[heure].push(mesure.valeur);
