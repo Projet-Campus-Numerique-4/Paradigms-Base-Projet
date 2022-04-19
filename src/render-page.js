@@ -80,7 +80,6 @@ function fillBruitParHeure(data, withGraph) {
     .filter(({type}) => type === "noise")
     .reduce((acc, curr) => {
       const heure = new Date(curr.timestamp).toLocaleTimeString("fr");
-
       return {
         ...acc,
          [heure]: [...(curr[heure] === undefined ? [] : curr[heure]), curr.valeur]
