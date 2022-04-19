@@ -74,8 +74,9 @@ function createElem(value, tr) {
 function fillBruitParHeure(data, withGraph) {
   const bruitParHeure = {};
 
-  data.map((mesure) => {
-    if (withGraph && mesure.type === "noise") {
+  data.filter(mesure => mesure.type === "noise")
+      .map((mesure) => {
+    if (withGraph) {
       const heure = new Date(mesure.timestamp).toLocaleTimeString("fr");
       return bruitParHeure[heure] ? bruitParHeure[heure].push(mesure.valeur) : bruitParHeure[heure] = [mesure.valeur];
     }
@@ -88,9 +89,8 @@ function displayGraph(bruitParHeure, withGraph) {
   if (withGraph) {
     const graphData = Object.fromEntries(
       Object.entries(bruitParHeure)
-        .map(arr => {
-          const mesure = arr[1];
-          return [arr[0], sum(mesure) / mesure.length];
+        .map(([key, mesure]) => {
+          return [key, sum(mesure) / mesure.length];
         })
     );
     window.chart = createChart("myChart", graphData, "bruit");
