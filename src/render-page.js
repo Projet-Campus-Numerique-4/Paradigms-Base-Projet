@@ -56,11 +56,11 @@ function fillTable(table, data){
 
     tr.setAttribute("data-id", mesure.id);
 
-    // createElem(dateCell,mesure.timestamp);
-    // createElem(capteurCell,mesure.type);
-    // createElem(valeurCell,mesure.valeur);
+    createElem(mesure.timestamp, tr);
+    createElem(mesure.type, tr);
+    createElem(mesure.valeur, tr);
 
-
+/*
     let dateCell = document.createElement("td");
     dateCell.innerHTML = mesure.timestamp;
     tr.appendChild(dateCell);
@@ -72,14 +72,15 @@ function fillTable(table, data){
     let valeurCell = document.createElement("td");
     valeurCell.innerHTML = mesure.valeur;
     tr.appendChild(valeurCell);
+  */
 
     table.appendChild(tr);
   }
 }
 
 
-function createElem(cell, value){
-  cell = document.createElement("td");
+function createElem(value, tr){
+  let cell = document.createElement("td");
   cell.innerHTML = value;
   tr.appendChild(cell);
 }
