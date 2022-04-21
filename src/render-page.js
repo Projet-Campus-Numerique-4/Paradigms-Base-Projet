@@ -126,9 +126,7 @@ let testMapValue = {
 }
 let data = { timestampObject, testMapValue };
 
-function addA(elem) {
-  return  elem + "a";
-}
+const addA =elem => elem + "a";
 
 function mapValue(addA, data) {
 
