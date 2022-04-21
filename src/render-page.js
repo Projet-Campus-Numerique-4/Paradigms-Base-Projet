@@ -84,7 +84,6 @@ function fillBruitParHeure(data) {
         [heure]: [...(acc[heure] === undefined ? [] : acc[heure]), curr.valeur]
       }
     }, {});
-  //console.log(bruitParHeure);
   return bruitParHeure;
 }
 
@@ -172,15 +171,12 @@ function mapRecursive2([first, ...rest], fn) {
   if (rest.length === 1) {
     return [fn(first), fn(rest[0])];
   } 
-  console.log(fn(first));
   return [fn(first), ...(mapRecursive2(rest, fn))];
 }
 
 function addNumber(number = 0) {
-  return (elem) => {
-    return (elem + number)};
+  return (elem) => elem + number;
 }
-
 
 const maptest = mapRecursive2([1, 2, 3], addNumber(3));
 
@@ -194,7 +190,6 @@ function filterRecursive(array, result = []) {
 }
 
 const filtertest = filterRecursive([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-console.log(filtertest);
 
 const reduceRecursive = (array) => {
   if (array.length === 0) return 0;
