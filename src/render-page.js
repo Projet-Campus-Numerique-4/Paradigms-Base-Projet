@@ -20,10 +20,6 @@ function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
-<<<<<<< HEAD
-    //console.log(bruitParHeure);
-=======
->>>>>>> 4070e4fd25ffd502aff1c8ade596028441756d54
     displayGraph(bruitParHeure);
   }
 }
@@ -88,7 +84,6 @@ function fillBruitParHeure(data) {
         [heure]: [...(acc[heure] === undefined ? [] : acc[heure]), curr.valeur]
       }
     }, {});
-  //console.log(bruitParHeure);
   return bruitParHeure;
 }
 
@@ -104,7 +99,6 @@ function displayGraph(bruitParHeure) {
 }
 
 function sum(table) {
-  console.log(table);
   return table.reduce((acc, i) => acc + i);
 }
 
@@ -129,18 +123,18 @@ let testMapValue = {
 }
 let data = { timestampObject, testMapValue };
 
-const addA =elem => elem + "a";
+function addValue (string) {
+  return (elem) => elem + string;
+};
 
-function mapValue(addA, data) {
+function mapValue(fnString, data) {
 
-  
-    let array = Object.entries(data);
-    let map = array.map(([key, value]) => [key, addA(value)]);
-    let result =  Object.fromEntries(map);
-   
-    return result;
-  }
+  let array = Object.entries(data);
+  let map = array.map(([key, value]) => [key, fnString(value)]);
+  let result = Object.fromEntries(map);
 
+  return result;
+}
 function HoF(fn) {
   return fn(
     3
@@ -182,4 +176,4 @@ renderPage.fillBruitParHeure = fillBruitParHeure;
 renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
 renderPage.mapValue = mapValue;
-renderPage.addA = addA;
+renderPage.addValue = addValue;
