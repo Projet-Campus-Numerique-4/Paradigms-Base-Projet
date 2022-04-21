@@ -20,7 +20,7 @@ function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
-    console.log(bruitParHeure);
+    //console.log(bruitParHeure);
     displayGraph(bruitParHeure);
   }
 }
@@ -77,30 +77,31 @@ function createElem(value, tr) {
 function fillBruitParHeure(data) {
 
   const bruitParHeure = data
-    .filter(({type}) => type === "noise")
+    .filter(({ type }) => type === "noise")
     .reduce((acc, curr) => {
       const heure = new Date(curr.timestamp).toLocaleTimeString("fr");
       return {
         ...acc,
-         [heure]: [...(acc[heure] === undefined ? [] : acc[heure]), curr.valeur]
+        [heure]: [...(acc[heure] === undefined ? [] : acc[heure]), curr.valeur]
       }
     }, {});
-
+  //console.log(bruitParHeure);
   return bruitParHeure;
 }
 
 function displayGraph(bruitParHeure) {
-    const graphData = Object.fromEntries(
-      Object.entries(bruitParHeure)
-        .map(([key, mesure]) => {
-          return [key, sum(mesure) / mesure.length];
-        })
-    );
-    window.chart = createChart("myChart", graphData, "bruit");
+  const graphData = Object.fromEntries(
+    Object.entries(bruitParHeure)
+      .map(([key, mesure]) => {
+        return [key, sum(mesure) / mesure.length];
+      })
+  );
+  window.chart = createChart("myChart", graphData, "bruit");
 
 }
 
 function sum(table) {
+  console.log(table);
   return table.reduce((acc, i) => acc + i);
 }
 
@@ -118,23 +119,57 @@ let timestampObject = {
   timestamp: 1650371584398
 }
 
+let testMapValue = {
+  id: 2,
+  valeur: 20,
+  timestamp: 1650371584398
+}
+let data = { timestampObject, testMapValue };
 
-function addDateProps({timestamp = Date.now()}) {
+function addA(elem) {
+  return  elem + "a";
+}
+
+function mapValue(addA, data) {
+
+  
+    let array = Object.entries(data);
+    let map = array.map(([key, value]) => [key, addA(value)]);
+    let result =  Object.fromEntries(map);
+   
+    return result;
+  }
+
+function HoF(fn) {
+  return fn(
+    3
+  )
+}
+
+function add2(x) {
+  return x + 2
+}
+
+HoF(add2) //3+2
+
+
+function addDateProps({ timestamp = Date.now() }) {
 
   var date = new Date(timestamp);
 
   let result = {
     frDate: date.toLocaleDateString("fr"),
     jour: date.getDay(),
-    mois: date.getMonth() +1,
+    mois: date.getMonth() + 1,
     année: date.getFullYear(),
     heure: date.getHours()
   }
-  
+
   return result;
 }
 
 addDateProps(timestampObject);
+
 
 
 module.exports = renderPage;
@@ -145,4 +180,5 @@ renderPage.fillTable = fillTable;
 renderPage.fillBruitParHeure = fillBruitParHeure;
 renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
-
+renderPage.mapValue = mapValue;
+renderPage.addA = addA;
