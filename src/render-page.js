@@ -20,10 +20,6 @@ function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
-<<<<<<< HEAD
-    //console.log(bruitParHeure);
-=======
->>>>>>> 4070e4fd25ffd502aff1c8ade596028441756d54
     displayGraph(bruitParHeure);
   }
 }
@@ -132,8 +128,6 @@ let data = { timestampObject, testMapValue };
 const addA =elem => elem + "a";
 
 function mapValue(addA, data) {
-
-  
     let array = Object.entries(data);
     let map = array.map(([key, value]) => [key, addA(value)]);
     let result =  Object.fromEntries(map);
@@ -173,6 +167,43 @@ addDateProps(timestampObject);
 
 
 
+const isTemperature = object => {
+  if ((object.filter(({ type }) => type === "temperature")) == null)
+    return true;
+  else return false;
+}
+
+const replaceTemperature = value => {
+    return 100;
+}
+
+
+function convert (fn1, fn2, data) {
+  if (fn1(data) === false) 
+    return data;
+  else {
+    const {valeur, ...rest} = data;
+    return {
+      ...rest,
+      "valeur" : fn2(valeur)
+    };
+  }
+}
+
+
+const data1 = {
+  id: 1,
+  valeur: 50,
+  type: "temperature",
+  timestamp: "2022-02-09T08:30:59",
+  };
+
+// let res = convert(isTemperature, replaceTemperature, data1);
+// console.log(res);
+
+
+
+
 module.exports = renderPage;
 renderPage.displayData = displayData;
 renderPage.createTable = createTable;
@@ -183,3 +214,11 @@ renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
 renderPage.mapValue = mapValue;
 renderPage.addA = addA;
+renderPage.isTemperature = isTemperature;
+renderPage.replaceTemperature = replaceTemperature;
+renderPage.convert = convert;
+
+
+
+
+
