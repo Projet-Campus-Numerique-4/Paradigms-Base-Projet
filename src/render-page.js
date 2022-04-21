@@ -100,7 +100,6 @@ function displayGraph(bruitParHeure) {
 }
 
 function sum(table) {
-  console.log(table);
   return table.reduce((acc, i) => acc + i);
 }
 
@@ -157,6 +156,51 @@ function convert(fn1, fn2) {
   }
 }
 
+//const groupBy = () => group(x => x.valeur).by(y => `${y.date.heure}h`);
+
+
+function mapRecursive(array, result = []) {
+  if (array.length === 0) return result;
+  const shift = array.shift() + 1; // map transformation 
+  result.push(shift);
+  return mapRecursive(array, result);
+}
+
+
+function mapRecursive2([first, ...rest], fn) {
+  
+  if (rest.length === 1) {
+    return [fn(first), fn(rest[0])];
+  } 
+  console.log(fn(first));
+  return [fn(first), ...(mapRecursive2(rest, fn))];
+}
+
+function addNumber(number = 0) {
+  return (elem) => {
+    return (elem + number)};
+}
+
+
+const maptest = mapRecursive2([1, 2, 3], addNumber(3));
+
+
+function filterRecursive(array, result = []) {
+  if (array.length === 0) return result;
+  const shift = array.shift();
+  if (shift > 5) // filter condition
+    result.push(shift);
+  return filterRecursive(array, result);
+}
+
+const filtertest = filterRecursive([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+console.log(filtertest);
+
+const reduceRecursive = (array) => {
+  if (array.length === 0) return 0;
+  return array.shift() + reduceRecursive(array.shift());
+}
+
 
 module.exports = renderPage;
 renderPage.displayData = displayData;
@@ -170,6 +214,11 @@ renderPage.mapValue = mapValue;
 renderPage.addA = addA;
 renderPage.addString = addString;
 renderPage.convert = convert;
+renderPage.mapRecursive = mapRecursive;
+renderPage.filterRecursive = filterRecursive;
+renderPage.reduceRecursive = reduceRecursive;
+renderPage.mapRecursive2 = mapRecursive2;
+renderPage.addNumber = addNumber;
 
 
 
