@@ -110,44 +110,6 @@ function lambdaFunction() {
   let ageMoyen = listvraibob.reduce((acc, elem) => { return acc + elem.age }) / listvraibob.length;
 }
 
-let timestampObject = {
-  id: 2,
-  valeur: 10,
-  timestamp: 1650371584398
-}
-
-let testMapValue = {
-  id: 2,
-  valeur: 20,
-  timestamp: 1650371584398
-}
-let data = { timestampObject, testMapValue };
-
-function addValue (string) {
-  return (elem) => elem + string;
-};
-
-function mapValue(fnString, data) {
-
-  let array = Object.entries(data);
-  let map = array.map(([key, value]) => [key, fnString(value)]);
-  let result = Object.fromEntries(map);
-
-  return result;
-}
-function HoF(fn) {
-  return fn(
-    3
-  )
-}
-
-function add2(x) {
-  return x + 2
-}
-
-HoF(add2) //3+2
-
-
 function addDateProps({ timestamp = Date.now() }) {
 
   var date = new Date(timestamp);
@@ -163,8 +125,76 @@ function addDateProps({ timestamp = Date.now() }) {
   return result;
 }
 
-addDateProps(timestampObject);
 
+const addA = elem => elem + "a";
+
+function addString(string) {
+  return (elem) => elem + string;
+}
+
+function mapValue(fn, data) {
+  let array = Object.entries(data);
+  let map = array.map(([key, value]) => [key, fn(value)]);
+  let result = Object.fromEntries(map);
+
+  return result;
+}
+
+
+function convert(fn1, fn2) {
+  return function (data) {
+    if (fn1(data) === false)
+      return data;
+    else {
+      const { valeur, ...rest } = data;
+      return {
+        ...rest,
+        "valeur": fn2(valeur)
+      };
+    }
+  }
+}
+
+//const groupBy = () => group(x => x.valeur).by(y => `${y.date.heure}h`);
+
+
+function mapRecursive(array, result = []) {
+  if (array.length === 0) return result;
+  const shift = array.shift() + 1; // map transformation 
+  result.push(shift);
+  return mapRecursive(array, result);
+}
+
+
+function mapRecursive2([first, ...rest], fn) {
+  
+  if (rest.length === 1) {
+    return [fn(first), fn(rest[0])];
+  } 
+  return [fn(first), ...(mapRecursive2(rest, fn))];
+}
+
+function addNumber(number = 0) {
+  return (elem) => elem + number;
+}
+
+const maptest = mapRecursive2([1, 2, 3], addNumber(3));
+
+
+function filterRecursive(array, result = []) {
+  if (array.length === 0) return result;
+  const shift = array.shift();
+  if (shift > 5) // filter condition
+    result.push(shift);
+  return filterRecursive(array, result);
+}
+
+const filtertest = filterRecursive([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+const reduceRecursive = (array) => {
+  if (array.length === 0) return 0;
+  return array.shift() + reduceRecursive(array.shift());
+}
 
 
 module.exports = renderPage;
@@ -176,4 +206,16 @@ renderPage.fillBruitParHeure = fillBruitParHeure;
 renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
 renderPage.mapValue = mapValue;
-renderPage.addValue = addValue;
+renderPage.addA = addA;
+renderPage.addString = addString;
+renderPage.convert = convert;
+renderPage.mapRecursive = mapRecursive;
+renderPage.filterRecursive = filterRecursive;
+renderPage.reduceRecursive = reduceRecursive;
+renderPage.mapRecursive2 = mapRecursive2;
+renderPage.addNumber = addNumber;
+
+
+
+
+
