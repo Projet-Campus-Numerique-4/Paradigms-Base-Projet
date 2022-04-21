@@ -19,10 +19,11 @@ describe("convert", () => {
         assert.equal(JSON.stringify(res), JSON.stringify(data));
     });
     it("change valeur si la 1er fonction renvoie vrai", () => {
-        const { valeur } = convert(
-            () => true,
+        const {valeur, id} = convert(
+            () => "aa",
             () => 100
             , data);
         assert.equal(valeur, 100);
+        assert.equal(id, 1);
     });
 });

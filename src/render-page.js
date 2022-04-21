@@ -1,5 +1,9 @@
 const { timestamp } = require("rxjs");
 const createChart = require("./graph");
+const { toCelsius } = require("./temperature");
+
+
+
 
 
 /**
@@ -123,7 +127,7 @@ let testMapValue = {
 }
 let data = { timestampObject, testMapValue };
 
-function addValue (string) {
+function addValue(string) {
   return (elem) => elem + string;
 };
 
@@ -135,17 +139,38 @@ function mapValue(fnString, data) {
 
   return result;
 }
-function HoF(fn) {
-  return fn(
-    3
-  )
+
+const dataTemp = {
+  id: 1,
+  valeur: 50,
+  type: "temperature",
+  timestamp: "2022-02-09T08:30:59",
+};
+
+const isTemperature = type => type === "temperature";
+
+/**
+ * 
+ * @param {(v: any) => Boolean} fn1 
+ * @param {*} fn2 
+ * @param {*} data 
+ * @returns 
+ */
+
+
+function convert(fn1, fn2, data) {
+
+  const { valeur, type } = data;
+  if (fn1(type)) {
+    return {
+      ...data,
+      "valeur": fn2(valeur)
+    }
+  }
+  return data
 }
 
-function add2(x) {
-  return x + 2
-}
-
-HoF(add2) //3+2
+const result = convert(isTemperature, toCelsius)(dataTemp)
 
 
 function addDateProps({ timestamp = Date.now() }) {
@@ -177,3 +202,5 @@ renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
 renderPage.mapValue = mapValue;
 renderPage.addValue = addValue;
+renderPage.isTemperature = isTemperature;
+renderPage.convert = convert;
