@@ -165,6 +165,10 @@ function addDateProps({ timestamp = Date.now() }) {
 
 addDateProps(timestampObject);
 
+const dataKey = {
+  key1: "value1",
+  key2: "value2",
+  };
 
 
 module.exports = renderPage;
