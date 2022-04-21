@@ -135,7 +135,27 @@ function addDateProps({timestamp = Date.now()}) {
 
 addDateProps(timestampObject);
 
+const dataKey = {
+  key1: "value1",
+  key2: "value2",
+  };
 
+
+  /**
+   * @param {string} value
+   */
+function addValue (value) {
+  return (x) => x + value; 
+}
+
+function mapValue(fnAddString, objet){
+     return Object.fromEntries(
+      Object.entries(objet).map(([key, value]) => [key, fnAddString(value)])
+       )
+}
+
+console.log(mapValue(addValue('a'), dataKey));
+console.log(mapValue(addValue('b'), dataKey));
 module.exports = renderPage;
 renderPage.displayData = displayData;
 renderPage.createTable = createTable;
