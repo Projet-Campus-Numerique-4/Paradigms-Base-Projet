@@ -20,7 +20,10 @@ function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
+<<<<<<< HEAD
     //console.log(bruitParHeure);
+=======
+>>>>>>> 4070e4fd25ffd502aff1c8ade596028441756d54
     displayGraph(bruitParHeure);
   }
 }
