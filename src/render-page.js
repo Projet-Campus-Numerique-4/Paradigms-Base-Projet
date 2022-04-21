@@ -112,42 +112,6 @@ function lambdaFunction() {
   let ageMoyen = listvraibob.reduce((acc, elem) => { return acc + elem.age }) / listvraibob.length;
 }
 
-let timestampObject = {
-  id: 2,
-  valeur: 10,
-  timestamp: 1650371584398
-}
-
-let testMapValue = {
-  id: 2,
-  valeur: 20,
-  timestamp: 1650371584398
-}
-let data = { timestampObject, testMapValue };
-
-const addA =elem => elem + "a";
-
-function mapValue(addA, data) {
-    let array = Object.entries(data);
-    let map = array.map(([key, value]) => [key, addA(value)]);
-    let result =  Object.fromEntries(map);
-   
-    return result;
-  }
-
-function HoF(fn) {
-  return fn(
-    3
-  )
-}
-
-function add2(x) {
-  return x + 2
-}
-
-HoF(add2) //3+2
-
-
 function addDateProps({ timestamp = Date.now() }) {
 
   var date = new Date(timestamp);
@@ -163,45 +127,35 @@ function addDateProps({ timestamp = Date.now() }) {
   return result;
 }
 
-addDateProps(timestampObject);
 
+const addA = elem => elem + "a";
 
-
-const isTemperature = object => {
-  if ((object.filter(({ type }) => type === "temperature")) == null)
-    return true;
-  else return false;
+function addString(string) {
+  return (elem) => elem + string;
 }
 
-const replaceTemperature = value => {
-    return 100;
+function mapValue(fn, data) {
+  let array = Object.entries(data);
+  let map = array.map(([key, value]) => [key, fn(value)]);
+  let result = Object.fromEntries(map);
+
+  return result;
 }
 
 
-function convert (fn1, fn2, data) {
-  if (fn1(data) === false) 
-    return data;
-  else {
-    const {valeur, ...rest} = data;
-    return {
-      ...rest,
-      "valeur" : fn2(valeur)
-    };
+function convert(fn1, fn2) {
+  return function (data) {
+    if (fn1(data) === false)
+      return data;
+    else {
+      const { valeur, ...rest } = data;
+      return {
+        ...rest,
+        "valeur": fn2(valeur)
+      };
+    }
   }
 }
-
-
-const data1 = {
-  id: 1,
-  valeur: 50,
-  type: "temperature",
-  timestamp: "2022-02-09T08:30:59",
-  };
-
-// let res = convert(isTemperature, replaceTemperature, data1);
-// console.log(res);
-
-
 
 
 module.exports = renderPage;
@@ -214,8 +168,7 @@ renderPage.displayGraph = displayGraph;
 renderPage.addDateProps = addDateProps;
 renderPage.mapValue = mapValue;
 renderPage.addA = addA;
-renderPage.isTemperature = isTemperature;
-renderPage.replaceTemperature = replaceTemperature;
+renderPage.addString = addString;
 renderPage.convert = convert;
 
 
