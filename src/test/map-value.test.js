@@ -1,6 +1,6 @@
 var assert = require("assert");
 var pretty = require("pretty");
-var { mapValue, addA } = require("../render-page");
+var { mapValue, addValue } = require("../render-page");
 
 describe("mapValue", () => {
     const data = {
@@ -9,7 +9,7 @@ describe("mapValue", () => {
     };
 
     it("applique la fonction sur chaque valeur de l'objet", () => {
-        const res = mapValue(addA, data);
+        const res = mapValue(addValue('a'), data);
         assert.equal(res["key1"], "value1a");
         assert.equal(res["key2"], "value2a");
     });
