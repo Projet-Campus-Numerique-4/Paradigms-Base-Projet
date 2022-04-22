@@ -1,4 +1,3 @@
-const { timestamp } = require("rxjs");
 const createChart = require("./graph");
 
 
@@ -15,13 +14,34 @@ function renderPage(data, withGraph) {
   displayData(data, withGraph, divTable);
 }
 
-
 function displayData(data, withGraph, divTable) {
   createTable(data, divTable);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
     displayGraph(bruitParHeure);
   }
+}
+
+/**
+ * Génère le tableau de la page.
+ * @param {import("../types").Mesure[]} data
+ */
+function renderTable(data) {
+  const divTable = document.getElementById("table");
+  createTable(data, divTable);
+}
+
+/**
+ * Génère le graph de la page.
+ * @param {import("../types").Mesure[]} data
+ */
+function renderGraph(data) {
+  if (window.chart) {
+    window.chart.destroy();
+  }
+  const bruitParHeure = fillBruitParHeure(data);
+  displayGraph(bruitParHeure);
+
 }
 
 
@@ -155,8 +175,6 @@ function convert(fn1, fn2) {
   }
 }
 
-//const groupBy = () => group(x => x.valeur).by(y => `${y.date.heure}h`);
-
 
 function mapRecursive(array, result = []) {
   if (array.length === 0) return result;
@@ -167,10 +185,10 @@ function mapRecursive(array, result = []) {
 
 
 function mapRecursive2([first, ...rest], fn) {
-  
+
   if (rest.length === 1) {
     return [fn(first), fn(rest[0])];
-  } 
+  }
   return [fn(first), ...(mapRecursive2(rest, fn))];
 }
 
@@ -197,23 +215,21 @@ const reduceRecursive = (array) => {
 }
 
 
-module.exports = renderPage;
-renderPage.displayData = displayData;
-renderPage.createTable = createTable;
-renderPage.defineTable = defineTable;
-renderPage.fillTable = fillTable;
-renderPage.fillBruitParHeure = fillBruitParHeure;
-renderPage.displayGraph = displayGraph;
-renderPage.addDateProps = addDateProps;
-renderPage.mapValue = mapValue;
-renderPage.addA = addA;
-renderPage.addString = addString;
-renderPage.convert = convert;
-renderPage.mapRecursive = mapRecursive;
-renderPage.filterRecursive = filterRecursive;
-renderPage.reduceRecursive = reduceRecursive;
-renderPage.mapRecursive2 = mapRecursive2;
-renderPage.addNumber = addNumber;
+//exports.renderPage = renderPage;
+
+exports.renderTable = renderTable;
+exports.renderGraph = renderGraph;
+
+// exports.addDateProps = addDateProps;
+// exports.mapValue = mapValue;
+// exports.addA = addA;
+// exports.addString = addString;
+// exports.convert = convert;
+// exports.mapRecursive = mapRecursive;
+// exports.filterRecursive = filterRecursive;
+// exports.reduceRecursive = reduceRecursive;
+// exports.mapRecursive2 = mapRecursive2;
+// exports.addNumber = addNumber;
 
 
 
