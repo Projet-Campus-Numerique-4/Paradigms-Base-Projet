@@ -21,7 +21,20 @@ async function fetchData() {
     result.push(mesure);
   }
 
-  const noiseResponse = await fetch("/api/noise.json");
+  var myHeaders = new Headers();
+
+  var myInit = {
+    method: 'GET',
+    headers: myHeaders,
+    mode: 'cors',
+    cache: 'default'
+  };
+var index = 0;
+  var myRequest = new Request("http://localhost:1234/noise/" + index, myInit);
+
+  const noiseResponse = await fetch('http://localhost:1234/cod/0', myInit);
+  
+  console.log(noiseResponse);
   const noise = await noiseResponse.json();
   for (let index = 0; index < noise.length; index++) {
     let mesure = noise[index];

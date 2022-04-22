@@ -2,35 +2,32 @@ const { timestamp } = require("rxjs");
 const createChart = require("./graph");
 const { toCelsius } = require("./temperature");
 
-
-
-
-
 /**
  * Génère le rendu de la page.
  * @param {import("../types").Mesure[]} data
  * @param {boolean} withGraph Pour les tests
  */
+
+
 function renderPage(data, withGraph) {
-  const divTable = document.getElementById("table");
+  //const divTable = document.getElementById("table");
   if (withGraph && window.chart) {
     window.chart.destroy();
   }
-  displayData(data, withGraph, divTable);
+  displayData(data, withGraph);
 }
 
-
-function displayData(data, withGraph, divTable) {
-  createTable(data, divTable);
+function displayData(data, withGraph) {
+  createTable(data);
   if (withGraph) {
     const bruitParHeure = fillBruitParHeure(data);
     displayGraph(bruitParHeure);
   }
 }
 
-
 //CREATE table
-function createTable(data, divTable) {
+function createTable(data) {
+  const divTable = document.getElementById("table");
   const table = defineTable(divTable);
   fillTable(table, data);
 }
@@ -91,7 +88,8 @@ function fillBruitParHeure(data) {
   return bruitParHeure;
 }
 
-function displayGraph(bruitParHeure) {
+function displayGraph(data) {
+  const bruitParHeure = fillBruitParHeure(data);
   const graphData = Object.fromEntries(
     Object.entries(bruitParHeure)
       .map(([key, mesure]) => {
@@ -127,8 +125,8 @@ let testMapValue = {
 }
 let data = { timestampObject, testMapValue };
 
-function addValue(string) {
-  return (elem) => elem + string;
+function addValue(value) {
+  return (elem) => elem + value;
 };
 
 function mapValue(fnString, data) {
@@ -158,20 +156,21 @@ const isTemperature = type => type === "temperature";
  */
 
 
-function convert(fn1, fn2, data) {
+function convert(fn1, fn2) {
 
-  const { valeur, type } = data;
-  if (fn1(type)) {
-    return {
-      ...data,
-      "valeur": fn2(valeur)
+  return function (data) {
+    const { valeur, type } = data;
+    if (fn1(type)) {
+      return {
+        ...data,
+        "valeur": fn2(valeur)
+      }
     }
+    return data
   }
-  return data
 }
 
 const result = convert(isTemperature, toCelsius)(dataTemp)
-
 
 function addDateProps({ timestamp = Date.now() }) {
 
@@ -190,7 +189,19 @@ function addDateProps({ timestamp = Date.now() }) {
 
 addDateProps(timestampObject);
 
+// Creer les fonctions map et fliter et reduce
 
+function createMap(array, fn, result = []) {
+  if (array.length === 0) {
+    return result;
+  }
+  let value = array.shift();
+  let mapResult = fn(value);
+  result.push(mapResult);
+  return createMap(array, fn, result)
+}
+
+const creatTest = createMap([1, 2, 3, 4], addValue(1))
 
 module.exports = renderPage;
 renderPage.displayData = displayData;
@@ -204,3 +215,4 @@ renderPage.mapValue = mapValue;
 renderPage.addValue = addValue;
 renderPage.isTemperature = isTemperature;
 renderPage.convert = convert;
+renderPage.createMap = createMap;

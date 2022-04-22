@@ -14,15 +14,13 @@ describe("convert", () => {
     it("ne change rien si la 1er fonction renvoie false", () => {
         const res = convert(
             () => false,
-            () => 100
-            , data);
+            () => 100)(data);
         assert.equal(JSON.stringify(res), JSON.stringify(data));
     });
     it("change valeur si la 1er fonction renvoie vrai", () => {
         const {valeur, id} = convert(
             () => "aa",
-            () => 100
-            , data);
+            () => 100)(data);
         assert.equal(valeur, 100);
         assert.equal(id, 1);
     });
